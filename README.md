@@ -2,7 +2,7 @@
 -----------------------
   For Google Chrome chrome://extensions/
   
-  ForMicrosoft Edge edge://extensions/
+  For Microsoft Edge edge://extensions/
   
   Turn on Developer mode.
   
