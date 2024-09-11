@@ -6,11 +6,13 @@
   "permissions": ["activeTab", "scripting"],
   "action": {
     "default_popup": "popup.html",
-    "default_icon": "icon16.png" // Reference to your new icon
+    "default_icon": "icon16.png",
+    "default_popup_width": 400,  // Set desired width
+    "default_popup_height": 300  // Set desired height
   },
   "icons": {
-    "16": "/icon16.png",
-    "48": "icon48.png", // Optionally, add larger sizes if needed
+    "16": "icon16.png",
+    "48": "icon48.png",
     "128": "icon128.png"
   }
 }
