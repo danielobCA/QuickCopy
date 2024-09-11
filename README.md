@@ -1,6 +1,6 @@
 **Installation guide**
 -----------------------
-  Go to [chrome://extensions/]
+  Go to [link](chrome://extensions/)
   
   At the top right, turn on Developer mode.
   
