@@ -6,7 +6,7 @@
   "permissions": ["activeTab", "scripting"],
   "action": {
     "default_popup": "popup.html",
-    "default_icon": "icon16.png",
+    "default_icon": "icon128.png",
     "default_popup_width": 400,  // Set desired width
     "default_popup_height": 300  // Set desired height
   },
