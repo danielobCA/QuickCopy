@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Number Scraper</title>
+    <script src="popup.js"></script>
+    <style>
+      body {
+        background-color: #ffde59;
+        width: 400px; /* Set the width to your preferred size */
+        height: 300px; /* Set the height to your preferred size */
+        margin: 0;
+        padding: 10px;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center horizontally */
+        justify-content: center; /* Center vertically */
+        text-align: center; /* Center text */
+      }
+      h1 {
+        font-size: 24px; /* Adjust header font size as needed */
+        font-weight: bold;
+        margin-bottom: 10px; /* Space below header */
+      }
+      #number {
+        font-size: 18px; /* Adjust body text font size as needed */
+        margin-bottom: 20px; /* Space below numbers */
+      }
+      #copyButton {
+        padding: 5px 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px; /* Adjust button font size */
+        transition: background-color 0.3s; /* Smooth transition for background color change */
+      }
+      #copyButton:hover {
+        background-color: #45a049; /* Darker color on hover */
+      }
+      .copy-notification {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px;
+        display: none;
+        z-index: 1000;
+      }
+    </style>
+  </head>
+  <body>
+      <h1>QuickCopy</h1> <!-- New header -->
+    <h1 id="headerData"></h1> <!-- Big bold text -->
+    <p id="number">123456789</p> <!-- Example text to copy -->
+    <button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
+
+    <!-- Notification element -->
+    <div class="copy-notification" id="copyNotification">Copied</div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

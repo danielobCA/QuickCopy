@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "GalaxyFinder QuickCopy",
+  "version": "1.0",
+  "description": "A tool designed to simplify the process of sharing trade hub distances in EVE Online.",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon16.png" // Reference to your new icon
+  },
+  "icons": {
+    "16": "/icon16.png",
+    "48": "icon48.png", // Optionally, add larger sizes if needed
+    "128": "icon128.png"
+  }
+}
