@@ -18,9 +18,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Set configurable background color
+  // Set configurable background color to #ff914d
   const quickCopyBox = document.getElementById('quickCopyBox');
-  quickCopyBox.style.backgroundColor = '#ff6666'; // Set your preferred color here
+  quickCopyBox.style.backgroundColor = '#ff914d'; // Updated color
 
   // Add event listener to copy button
   document.getElementById('copyButton').addEventListener('click', function () {

@@ -9,31 +9,37 @@
         width: 400px;
         height: 300px;
         margin: 0;
-        padding: 10px;
+        padding: 0; /* Remove padding to avoid layout issues */
         font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* Ensure content starts at the top */
+      }
+
+      .quickCopyBox {
+        width: 100%; /* Full width of the popout */
+        padding: 10px;
+        background-color: #ff914d; /* Background color */
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+
+      #content { 
+        flex-grow: 1;
+        padding: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        text-align: center;
       }
-      .quickCopyBox {
-        padding: 10px;
-        border: 2px solid black; /* Add a border around the box */
-        background-color: #e0e0e0; /* Default background color */
-        border-radius: 5px; /* Optional: Add rounded corners */
-        width: fit-content; /* Box adjusts to content */
-        text-decoration: underline;
-      }
-      .quickCopyBox h1 {
-        font-size: 24px;
-        font-weight: bold;
-        margin: 0;
-      }
+
       #number {
         font-size: 18px;
         margin-bottom: 20px;
       }
+
       #copyButton {
         padding: 5px 10px;
         background-color: #4CAF50;
@@ -43,9 +49,11 @@
         font-size: 16px;
         transition: background-color 0.3s;
       }
+
       #copyButton:hover {
         background-color: #45a049;
       }
+
       .copy-notification {
         position: absolute;
         top: 10px;
@@ -59,12 +67,19 @@
     </style>
   </head>
   <body>
+    <!-- Full-width QuickCopy bar -->
     <div class="quickCopyBox" id="quickCopyBox">
-      <h1>QuickCopy</h1>
+      QuickCopy
     </div>
-    <h1 id="headerData"></h1>
-    <p id="number">123456789</p>
-    <button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
+
+    <!-- Main content below the bar -->
+    <div id="content">
+      <h1 id="headerData"></h1> <!-- Dynamic header content -->
+      <p id="number">123456789</p> <!-- Example text to copy -->
+      <button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
+    </div>
+
+    <!-- Notification for copy -->
     <div class="copy-notification" id="copyNotification">Copied</div>
 
     <script src="popup.js"></script>
