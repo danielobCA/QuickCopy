@@ -1,7 +1,8 @@
 **Installation guide**
 -----------------------
   For Google Chrome chrome://extensions/
-  for Microsoft Edge edge://extensions/
+  
+  ForMicrosoft Edge edge://extensions/
   
   Turn on Developer mode.
   
