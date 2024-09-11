@@ -1,8 +1,9 @@
 **Installation guide**
 -----------------------
-  Go to chrome://extensions/
+  For Google Chrome chrome://extensions/
+  for Microsoft Edge edge://extensions/
   
-  At the top right, turn on Developer mode.
+  Turn on Developer mode.
   
   Click Load unpacked.
   
