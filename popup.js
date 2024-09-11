@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
       } else {
         const data = results[0].result;
         if (data) {
-          // Add a period to the end of the header
           document.getElementById('headerData').innerText = (data.header || 'Header not found') + '.';
           document.getElementById('number').innerText = data.numbers || 'Numbers not found';
         } else {
@@ -18,6 +17,10 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+  // Set configurable background color
+  const quickCopyBox = document.getElementById('quickCopyBox');
+  quickCopyBox.style.backgroundColor = '#ff6666'; // Set your preferred color here
 
   // Add event listener to copy button
   document.getElementById('copyButton').addEventListener('click', function () {
@@ -28,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
+// Function to scrape header and numbers from the page
 function getHeaderDataAndNumbers() {
   try {
     // XPath for the header
@@ -79,7 +83,7 @@ function getHeaderDataAndNumbers() {
   }
 }
 
-// Function to copy text to clipboard
+// Function to copy text to clipboard and show/hide the "Copied" notification
 function copyToClipboard(text) {
   const tempInput = document.createElement('textarea');
   tempInput.value = text;
@@ -87,4 +91,13 @@ function copyToClipboard(text) {
   tempInput.select();
   document.execCommand('copy');
   document.body.removeChild(tempInput);
+  
+  // Show notification
+  const notification = document.getElementById('copyNotification');
+  notification.style.display = 'block';
+
+  // Hide the notification after 2 seconds
+  setTimeout(() => {
+    notification.style.display = 'none';
+  }, 2000); // 2000 milliseconds = 2 seconds
 }

@@ -6,25 +6,33 @@
     <style>
       body {
         background-color: #ffde59;
-        width: 400px; /* Set the width to your preferred size */
-        height: 300px; /* Set the height to your preferred size */
+        width: 400px;
+        height: 300px;
         margin: 0;
         padding: 10px;
         font-family: Arial, sans-serif;
         display: flex;
         flex-direction: column;
-        align-items: center; /* Center horizontally */
-        justify-content: center; /* Center vertically */
-        text-align: center; /* Center text */
+        align-items: center;
+        justify-content: center;
+        text-align: center;
       }
-      h1 {
-        font-size: 24px; /* Adjust header font size as needed */
+      .quickCopyBox {
+        padding: 10px;
+        border: 2px solid black; /* Add a border around the box */
+        background-color: #e0e0e0; /* Default background color */
+        border-radius: 5px; /* Optional: Add rounded corners */
+        width: fit-content; /* Box adjusts to content */
+        text-decoration: underline;
+      }
+      .quickCopyBox h1 {
+        font-size: 24px;
         font-weight: bold;
-        margin-bottom: 10px; /* Space below header */
+        margin: 0;
       }
       #number {
-        font-size: 18px; /* Adjust body text font size as needed */
-        margin-bottom: 20px; /* Space below numbers */
+        font-size: 18px;
+        margin-bottom: 20px;
       }
       #copyButton {
         padding: 5px 10px;
@@ -32,11 +40,11 @@
         color: white;
         border: none;
         cursor: pointer;
-        font-size: 16px; /* Adjust button font size */
-        transition: background-color 0.3s; /* Smooth transition for background color change */
+        font-size: 16px;
+        transition: background-color 0.3s;
       }
       #copyButton:hover {
-        background-color: #45a049; /* Darker color on hover */
+        background-color: #45a049;
       }
       .copy-notification {
         position: absolute;
@@ -51,12 +59,12 @@
     </style>
   </head>
   <body>
-      <h1>QuickCopy</h1> <!-- New header -->
-    <h1 id="headerData"></h1> <!-- Big bold text -->
-    <p id="number">123456789</p> <!-- Example text to copy -->
+    <div class="quickCopyBox" id="quickCopyBox">
+      <h1>QuickCopy</h1>
+    </div>
+    <h1 id="headerData"></h1>
+    <p id="number">123456789</p>
     <button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
-
-    <!-- Notification element -->
     <div class="copy-notification" id="copyNotification">Copied</div>
 
     <script src="popup.js"></script>
