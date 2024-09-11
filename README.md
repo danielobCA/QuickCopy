@@ -7,4 +7,5 @@ Find and select the folder with the downloaded contents.
 
 
 
-![icon128](https://github.com/user-attachments/assets/1e6aad22-a6e9-46d6-9fca-4452db3a0f1b)
+![image](https://github.com/user-attachments/assets/2ce842bc-c54e-4c4a-ae6b-451c4b5e6771)
+
