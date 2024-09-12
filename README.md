@@ -1,6 +1,6 @@
 **Installation guide**
 -----------------------
-  Download latest release.
+  Download [latest release](https://github.com/danielobCA/QuickCopy/releases).
   
   For Google Chrome chrome://extensions/
   
