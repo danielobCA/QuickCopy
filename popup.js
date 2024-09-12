@@ -1,21 +1,23 @@
-document.addEventListener('DOMContentLoaded', async function () {
-  try {
-    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
-    const results = await chrome.scripting.executeScript({
+document.addEventListener('DOMContentLoaded', function () {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.scripting.executeScript({
       target: { tabId: tabs[0].id },
       function: getHeaderDataAndNumbers
+    }, (results) => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError.message);
+      } else {
+        const data = results[0].result;
+        if (data) {
+          // Add a period to the end of the header
+          document.getElementById('headerData').innerText = (data.header || 'Header not found') + '.';
+          document.getElementById('number').innerText = data.numbers || 'Numbers not found';
+        } else {
+          console.error('No data returned from the content script.');
+        }
+      }
     });
-
-    if (results[0]?.result) {
-      const data = results[0].result;
-      document.getElementById('headerData').innerText = (data.header || 'Header not found') + '.';
-      document.getElementById('number').innerText = data.numbers || 'Numbers not found';
-    } else {
-      console.error('No data returned from content script.');
-    }
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
+  });
 
   // Add event listener to copy button
   document.getElementById('copyButton').addEventListener('click', function () {
@@ -26,35 +28,58 @@ document.addEventListener('DOMContentLoaded', async function () {
   });
 });
 
-// Function to scrape header and numbers from the page
 function getHeaderDataAndNumbers() {
   try {
+    // XPath for the header
     const headerXPath = "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[2]/header/div[1]/h6[1]";
-    const header = document.evaluate(headerXPath, document, null, XPathResult.STRING_TYPE, null).stringValue.trim() || 'No header available';
+    const header = document.evaluate(headerXPath, document, null, XPathResult.STRING_TYPE, null).stringValue || 'No header found';
     
+    // XPath pairs for the scraped data
     const pairs = [
-      { xPath1: "/html/body/div[1]/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[1]/div[1]/div/p[1]", xPath2: "/html/body/div[1]/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[1]/div[1]/div/p[2]" },
-      { xPath1: "/html/body/div[1]/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[2]/div[1]/div/p[1]", xPath2: "/html/body/div[1]/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[2]/div[1]/div/p[2]" },
-      { xPath1: "/html/body/div[1]/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[3]/div[1]/div/p[1]", xPath2: "/html/body/div[1]/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[3]/div[1]/div/p[2]" },
-      { xPath1: "/html/body/div[1]/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[4]/div[1]/div/p[1]", xPath2: "/html/body/div[1]/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[4]/div[1]/div/p[2]" },
-      { xPath1: "/html/body/div[1]/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[5]/div[1]/div/p[1]", xPath2: "/html/body/div[1]/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[5]/div[1]/div/p[2]" }
+      {
+        xPath1: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[1]/h3/div/div/p[1]", //jita
+        xPath2: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[1]/h3/div/div/p[2]" // jumps
+      },
+      {
+        xPath1: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[2]/h3/div/div/p[1]", //hek 
+        xPath2: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[2]/h3/div/div/p[2]"
+      },
+      {
+        xPath1: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[3]/h3/div/div/p[1]", //amarr
+        xPath2: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[3]/h3/div/div/p[2]"
+      },
+      {
+        xPath1: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[4]/h3/div/div/p[1]", //rens
+        xPath2: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[4]/h3/div/div/p[2]"
+      },
+      {
+        xPath1: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[5]/h3/div/div/p[1]", //dodixie
+        xPath2: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[5]/h3/div/div/p[2]"
+      }
     ];
 
     let result = '';
+    
     pairs.forEach(pair => {
-      const result1 = document.evaluate(pair.xPath1, document, null, XPathResult.STRING_TYPE, null).stringValue.trim();
-      const result2 = document.evaluate(pair.xPath2, document, null, XPathResult.STRING_TYPE, null).stringValue.trim();
-      result += `${result2 || 'N/A'} from ${result1 || 'N/A'}.\n`;
+      const result1 = document.evaluate(pair.xPath1, document, null, XPathResult.STRING_TYPE, null).stringValue || 'Not found';
+      const result2 = document.evaluate(pair.xPath2, document, null, XPathResult.STRING_TYPE, null).stringValue || 'Not found';
+      result += result2 + " from " + result1 + ".\n"; // Add period at the end of each line
     });
 
-    return { header: header, numbers: result.trim() };
+    return {
+      header: header,
+      numbers: result.trim()
+    };
   } catch (error) {
     console.error('Error fetching data:', error);
-    return { header: 'Error fetching header', numbers: 'Error fetching numbers' };
+    return {
+      header: 'Error fetching header',
+      numbers: 'Error fetching numbers'
+    };
   }
 }
 
-// Function to copy text to clipboard and show/hide the "Copied" notification
+// Function to copy text to clipboard
 function copyToClipboard(text) {
   const tempInput = document.createElement('textarea');
   tempInput.value = text;
@@ -62,13 +87,4 @@ function copyToClipboard(text) {
   tempInput.select();
   document.execCommand('copy');
   document.body.removeChild(tempInput);
-
-  // Show notification
-  const notification = document.getElementById('copyNotification');
-  notification.classList.add('show');
-
-  // Hide notification after 2 seconds
-  setTimeout(() => {
-    notification.classList.remove('show');
-  }, 2000);
 }

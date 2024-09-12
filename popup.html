@@ -73,8 +73,8 @@
 
     .copy-notification {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 395px;
+      right: 15px;
       background-color: #4CAF50;
       color: white;
       padding: 10px;
@@ -82,7 +82,7 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.5s ease-in-out, visibility 0.5s;
+      transition: opacity 0.3s ease-in-out, visibility 0.5s;
       z-index: 1000;
     }
 
@@ -122,7 +122,11 @@
   <!-- Main content below the bar -->
   <div id="content">
     <h1 id="headerData">Header Text</h1> <!-- Dynamic header content -->
+    <br>
     <p id="number">123456789</p> <!-- Example text to copy -->
+    <br>
+    <br>
+    <br>
     <button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
   </div>
 
