@@ -32,7 +32,7 @@ function getHeaderDataAndNumbers() {
   try {
     // XPath for the header
     const headerXPath = "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[2]/header/div[1]/h6[1]";
-    const header = document.evaluate(headerXPath, document, null, XPathResult.STRING_TYPE, null).stringValue || 'No header found';
+    const header = document.evaluate(headerXPath, document, null, XPathResult.STRING_TYPE, null).stringValue || 'No system detected';
     
     // XPath pairs for the scraped data
     const pairs = [
@@ -61,8 +61,8 @@ function getHeaderDataAndNumbers() {
     let result = '';
     
     pairs.forEach(pair => {
-      const result1 = document.evaluate(pair.xPath1, document, null, XPathResult.STRING_TYPE, null).stringValue || 'Not found';
-      const result2 = document.evaluate(pair.xPath2, document, null, XPathResult.STRING_TYPE, null).stringValue || 'Not found';
+      const result1 = document.evaluate(pair.xPath1, document, null, XPathResult.STRING_TYPE, null).stringValue || 'N/A';
+      const result2 = document.evaluate(pair.xPath2, document, null, XPathResult.STRING_TYPE, null).stringValue || 'N/A';
       result += result2 + " from " + result1 + ".\n"; // Add period at the end of each line
     });
 
