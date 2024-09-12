@@ -1,5 +1,7 @@
 **Installation guide**
 -----------------------
+  Download latest release.
+  
   For Google Chrome chrome://extensions/
   
   For Microsoft Edge edge://extensions/
