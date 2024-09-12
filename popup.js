@@ -32,7 +32,7 @@ function getHeaderDataAndNumbers() {
   try {
     // XPath for the header
     const headerXPath = "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[2]/header/div[1]/h6[1]";
-    const header = document.evaluate(headerXPath, document, null, XPathResult.STRING_TYPE, null).stringValue || 'No system detected';
+    const header = document.evaluate(headerXPath, document, null, XPathResult.STRING_TYPE, null).stringValue || 'No system selected';
     
     // XPath pairs for the scraped data
     const pairs = [
