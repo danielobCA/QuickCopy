@@ -2,9 +2,9 @@
 -----------------------
   Download [latest release](https://github.com/danielobCA/QuickCopy/releases).
   
-  For Google Chrome chrome://extensions/
+  For Google Chrome go to chrome://extensions/
   
-  For Microsoft Edge edge://extensions/
+  For Microsoft Edge go to edge://extensions/
   
   Turn on Developer mode.
   
