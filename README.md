@@ -1,5 +1,8 @@
 **Installation guide**
 -----------------------
+
+  Download latest release and unzip.
+  
   For Google Chrome chrome://extensions/
   
   For Microsoft Edge edge://extensions/
