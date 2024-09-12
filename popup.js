@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('copyButton').addEventListener('click', function () {
     const numbers = document.getElementById('number').innerText;
     const header = document.getElementById('headerData').innerText;
-    const fullText = header + "\n" + numbers;
+    const fullText = header + " " + numbers.replace(/\n/g, ' '); // Replace newlines with spaces
     copyToClipboard(fullText);
   });
 });
@@ -37,23 +37,23 @@ function getHeaderDataAndNumbers() {
     // XPath pairs for the scraped data
     const pairs = [
       {
-        xPath1: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[1]/h3/div/div/p[1]", //jita
+        xPath1: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[1]/h3/div/div/p[1]", // jita
         xPath2: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[1]/h3/div/div/p[2]" // jumps
       },
       {
-        xPath1: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[2]/h3/div/div/p[1]", //hek 
+        xPath1: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[2]/h3/div/div/p[1]", // hek
         xPath2: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[2]/h3/div/div/p[2]"
       },
       {
-        xPath1: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[3]/h3/div/div/p[1]", //amarr
+        xPath1: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[3]/h3/div/div/p[1]", // amarr
         xPath2: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[3]/h3/div/div/p[2]"
       },
       {
-        xPath1: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[4]/h3/div/div/p[1]", //rens
+        xPath1: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[4]/h3/div/div/p[1]", // rens
         xPath2: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[4]/h3/div/div/p[2]"
       },
       {
-        xPath1: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[5]/h3/div/div/p[1]", //dodixie
+        xPath1: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[5]/h3/div/div/p[1]", // dodixie
         xPath2: "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[1]/div/div[5]/h3/div/div/p[2]"
       }
     ];
