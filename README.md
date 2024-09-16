@@ -1,12 +1,12 @@
 **Installation guide**
 -----------------------
-  Download [latest release](https://github.com/danielobCA/QuickCopy/releases).
+  1. Download [latest release](https://github.com/danielobCA/QuickCopy/releases).
   
-  For Google Chrome go to chrome://extensions/
+  2. For Google Chrome go to chrome://extensions/
   
   For Microsoft Edge go to edge://extensions/
   
-  Turn on Developer mode.
+  3. Turn on Developer mode.
   
   Click Load unpacked.
   
