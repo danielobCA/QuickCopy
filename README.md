@@ -12,6 +12,8 @@
   
   Find and select the folder with the downloaded contents.
 
+  *This does work on Firefox however it is a little more finicky to get installed. Will update soon.
+
 Screenshots
 -----------------------
 
