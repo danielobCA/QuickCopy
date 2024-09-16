@@ -1,4 +1,64 @@
+// Function to apply the selected theme
+function applyTheme(theme) {
+  fetch('colors.json')
+    .then(response => response.json())
+    .then(colors => {
+      const themeColors = colors[theme] || colors.default; // Default to 'default' if theme is not found
+
+      // Apply gradient background
+      document.body.style.background = `linear-gradient(135deg, ${themeColors.backgroundGradient.start}, ${themeColors.backgroundGradient.end})`;
+
+      // Apply titleBox styles
+      const titleBox = document.getElementById('titleBox');
+      titleBox.style.backgroundColor = themeColors.titleBox.backgroundColor;
+      titleBox.style.color = themeColors.titleBox.fontColor;
+
+      // Apply copyButton styles
+      const copyButton = document.getElementById('copyButton');
+      copyButton.style.background = `linear-gradient(135deg, ${themeColors.copyButton.backgroundGradientStart}, ${themeColors.copyButton.backgroundGradientEnd})`;
+      copyButton.style.color = themeColors.copyButton.fontColor;
+
+      // Change hover color of copyButton dynamically
+      copyButton.addEventListener('mouseenter', () => {
+        copyButton.style.background = themeColors.copyButton.hoverColor;
+      });
+      copyButton.addEventListener('mouseleave', () => {
+        copyButton.style.background = `linear-gradient(135deg, ${themeColors.copyButton.backgroundGradientStart}, ${themeColors.copyButton.backgroundGradientEnd})`;
+      });
+
+      // Apply headerData color
+      const headerData = document.getElementById('headerData');
+      headerData.style.color = themeColors.headerData.fontColor;
+
+      // Apply number color
+      const number = document.getElementById('number');
+      number.style.color = themeColors.number.fontColor;
+
+      // Apply notification styles
+      const notification = document.getElementById('copyNotification');
+      notification.style.backgroundColor = themeColors.notification.backgroundColor;
+      notification.style.color = themeColors.notification.fontColor;
+    })
+    .catch(error => console.error('Error loading colors:', error));
+}
+
 document.addEventListener('DOMContentLoaded', function () {
+  const themeDropdown = document.getElementById('themeDropdown');
+
+  // Load the saved theme or default
+  const savedTheme = localStorage.getItem('theme') || 'default';
+  applyTheme(savedTheme);
+  themeDropdown.value = savedTheme;
+
+  // Handle theme changes
+  themeDropdown.addEventListener('change', function () {
+    const selectedTheme = themeDropdown.value;
+    applyTheme(selectedTheme);
+    // Save the selected theme to localStorage
+    localStorage.setItem('theme', selectedTheme);
+  });
+
+  // Fetch data and handle copy functionality
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.scripting.executeScript({
       target: { tabId: tabs[0].id },

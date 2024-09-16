@@ -7,14 +7,13 @@
   <style>
     html, body {
       width: 400px;
-      height: 400px;
       margin: 0;
       padding: 0;
-      background: linear-gradient(135deg, #ff914d, #ffde59); /* Gradient background */
       font-family: 'Poppins', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
+      box-sizing: border-box;
       justify-content: flex-start;
     }
 
@@ -22,18 +21,16 @@
       width: 100%;
       max-width: 400px;
       padding: 15px;
-      background-color: #ff914d;
       text-align: center;
       font-size: 26px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: #fff;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     .titleBox a {
-      color: #fff; /* Link color */
+      color: inherit; /* Link color is inherited from font color */
       text-decoration: none; /* Remove underline */
     }
 
@@ -53,21 +50,17 @@
       font-size: 26px;
       margin-bottom: 15px;
       font-weight: bold;
-      color: #333;
     }
 
     #number {
       font-size: 20px;
       margin-bottom: 20px;
-      color: #666;
     }
 
     #copyButton {
       padding: 10px 20px;
-      background: linear-gradient(135deg, #4CAF50, #388E3C); /* Green gradient */
-      color: white;
       border: none;
-      border-radius: 25px; /* Rounded button */
+      border-radius: 25px;
       cursor: pointer;
       font-size: 18px;
       font-family: 'Poppins', sans-serif; /* Ensures the font matches the rest */
@@ -76,14 +69,13 @@
     }
 
     #copyButton:hover {
-      background: #45a049; /* Lighter green on hover */
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
     }
 
     .copy-notification {
       position: absolute;
       top: 410px;
-      right: 163px;
+      right: 167px;
       background-color: #4CAF50;
       color: white;
       padding: 5px;
@@ -98,6 +90,10 @@
     .copy-notification.show {
       opacity: 1;
       visibility: visible;
+    }
+
+    #themeSelector {
+      margin: 10px 0;
     }
 
     @media (max-width: 400px) {
@@ -127,8 +123,10 @@
   <div class="titleBox" id="titleBox">
     <a href="https://github.com/danielobCA/QuickCopy" target="_blank">GalaxyFinder QuickCopy</a>
     <br>
-    v1.22
+    v1.23
   </div>
+
+
 
   <!-- Main content below the bar -->
   <div id="content">
@@ -141,6 +139,15 @@
     <br>
     <br>
     <br>
+  </div>
+    <!-- Theme Selector -->
+  <div id="themeSelector">
+    <select id="themeDropdown">
+      <option value="default">Default</option>
+      <option value="dark">Dark</option>
+      <option value="pink">Pink</option>
+
+    </select>
   </div>
 
   <!-- Notification for copy -->
