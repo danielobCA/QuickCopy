@@ -22,5 +22,6 @@ Planned features
 -----------------------
 
 -Custom colour/themes
+
 -Discord integration
 
