@@ -18,7 +18,7 @@
       justify-content: flex-start;
     }
 
-    .quickCopyBox {
+    .titleBox {
       width: 100%;
       max-width: 400px;
       padding: 15px;
@@ -30,6 +30,15 @@
       letter-spacing: 2px;
       color: #fff;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .titleBox a {
+      color: #fff; /* Link color */
+      text-decoration: none; /* Remove underline */
+    }
+
+    .titleBox a:hover {
+      text-decoration: underline; /* Underline on hover */
     }
 
     #content {
@@ -73,11 +82,11 @@
 
     .copy-notification {
       position: absolute;
-      top: 15px;
-      right: 15px;
+      top: 410px;
+      right: 163px;
       background-color: #4CAF50;
       color: white;
-      padding: 10px;
+      padding: 5px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       opacity: 0;
@@ -97,7 +106,7 @@
         height: auto;
       }
 
-      .quickCopyBox {
+      .titleBox {
         font-size: 22px;
         padding: 10px;
       }
@@ -114,9 +123,11 @@
   </style>
 </head>
 <body>
-  <!-- Full-width QuickCopy bar -->
-  <div class="quickCopyBox" id="quickCopyBox">
-    GalaxyFinder QuickCopy
+  <!-- Full-width Title bar -->
+  <div class="titleBox" id="titleBox">
+    <a href="https://github.com/danielobCA/QuickCopy" target="_blank">GalaxyFinder QuickCopy</a>
+    <br>
+    v1.22
   </div>
 
   <!-- Main content below the bar -->
@@ -126,9 +137,10 @@
 
     <p id="number">N/A</p> <!-- Example text to copy -->
     <br>
-    <br>
-    <br>
     <button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
+    <br>
+    <br>
+    <br>
   </div>
 
   <!-- Notification for copy -->

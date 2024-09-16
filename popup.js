@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function getHeaderDataAndNumbers() {
   try {
-    // XPath for the header
+    // XPath for the header 
     const headerXPath = "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[2]/header/div[1]/h6[1]";
     const header = document.evaluate(headerXPath, document, null, XPathResult.STRING_TYPE, null).stringValue || 'No system selected';
     
@@ -79,7 +79,7 @@ function getHeaderDataAndNumbers() {
   }
 }
 
-// Function to copy text to clipboard
+// Function to copy text to clipboard and show notification
 function copyToClipboard(text) {
   const tempInput = document.createElement('textarea');
   tempInput.value = text;
@@ -87,4 +87,13 @@ function copyToClipboard(text) {
   tempInput.select();
   document.execCommand('copy');
   document.body.removeChild(tempInput);
+
+  // Show the "Copied!" notification
+  const notification = document.getElementById('copyNotification');
+  notification.classList.add('show'); // Add the 'show' class to display the notification
+
+  // Hide the notification after 2 seconds
+  setTimeout(() => {
+    notification.classList.remove('show'); // Remove the 'show' class to hide the notification
+  }, 2000); // 2000 milliseconds = 2 seconds
 }
