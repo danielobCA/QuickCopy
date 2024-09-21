@@ -38,6 +38,13 @@
       text-decoration: underline; /* Underline on hover */
     }
 
+    /* Smaller font size for version text */
+    .titleBox span.version {
+      font-size: 14px; /* Adjust the font size as needed */
+      display: block; /* Ensure it's on a new line */
+      margin-top: 5px; /* Add some space above if needed */
+    }
+
     #content {
       flex-grow: 1;
       padding: 20px;
@@ -74,8 +81,8 @@
 
     .copy-notification {
       position: absolute;
-      top: 410px;
-      right: 167px;
+      top: 400px;
+      right: 172px;
       background-color: #4CAF50;
       color: white;
       padding: 5px;
@@ -92,8 +99,14 @@
       visibility: visible;
     }
 
-    #themeSelector {
-      margin: 10px 0;
+    /* Ensure the dropdown font matches the rest */
+    #themeDropdown {
+      font-family: 'Poppins', sans-serif; /* Match the rest of the fonts */
+      font-size: 14px; /* Adjust font size as needed */
+      padding: 2px;
+      border-radius: 16px;
+      border: 1px solid #ccc; /* Optional: Adjust border style */
+      cursor: pointer;
     }
 
     @media (max-width: 400px) {
@@ -123,33 +136,38 @@
   <div class="titleBox" id="titleBox">
     <a href="https://github.com/danielobCA/QuickCopy" target="_blank">GalaxyFinder QuickCopy</a>
     <br>
-    v1.23
+    <span class="version">(v1.2.4)</span> <!-- Version with smaller font size -->
   </div>
-
-
 
   <!-- Main content below the bar -->
   <div id="content">
     <br>
     <h1 id="headerData">No system selected.</h1> <!-- Dynamic header content -->
-
-    <p id="number">N/A</p> <!-- Example text to copy -->
+    <p id="number"></p> <!-- Example text to copy -->
     <br>
     <button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
     <br>
     <br>
     <br>
   </div>
-    <!-- Theme Selector -->
+
+  <!-- Theme Selector -->
   <div id="themeSelector">
     <select id="themeDropdown">
       <option value="default">Default</option>
-      <option value="dark">Dark</option>
-      <option value="pink">Pink</option>
-
+      <option value="dark">Slate</option>   
+      <option value="glacier">Glacier</option>  
+      <option value="amarr">Amarr</option>
+      <option value="caldari">Caldari</option> 
+      <option value="gallente">Gallente</option>  
+      <option value="minmatar">Minmatar</option>   
+      <option value="SEND">Ascendants</option>   
+      <option value="pink">Cotton Candy</option>      
+      <option value="tyrian">Tyrian</option>              
+      
     </select>
   </div>
-
+    <br>
   <!-- Notification for copy -->
   <div class="copy-notification" id="copyNotification">Copied!</div>
 

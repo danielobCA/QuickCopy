@@ -71,7 +71,14 @@ document.addEventListener('DOMContentLoaded', function () {
         if (data) {
           // Add a period to the end of the header
           document.getElementById('headerData').innerText = (data.header || 'Header not found') + '.';
-          document.getElementById('number').innerText = data.numbers || 'Numbers not found';
+          
+          // Check if numbers were returned and update UI accordingly
+          const numberElement = document.getElementById('number');
+          if (data.numbers && data.numbers.trim() !== '') {
+            numberElement.innerText = data.numbers;
+          } else {
+            numberElement.innerText = ''; // Clear the numbers if not found
+          }
         } else {
           console.error('No data returned from the content script.');
         }
@@ -83,7 +90,9 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('copyButton').addEventListener('click', function () {
     const numbers = document.getElementById('number').innerText;
     const header = document.getElementById('headerData').innerText;
-    const fullText = header + " " + numbers.replace(/\n/g, ' '); // Replace newlines with spaces
+    
+    // Prepare full text without "from" if numbers are not present
+    const fullText = numbers ? `${header} ${numbers.replace(/\n/g, ' ')}` : header;
     copyToClipboard(fullText);
   });
 });
@@ -93,7 +102,20 @@ function getHeaderDataAndNumbers() {
     // XPath for the header 
     const headerXPath = "/html/body/div/div[2]/div[1]/main/div[2]/div[3]/div[2]/header/div[1]/h6[1]";
     const header = document.evaluate(headerXPath, document, null, XPathResult.STRING_TYPE, null).stringValue || 'No system selected';
-    
+
+    // Locate the node-inlay containing the header name
+    const nodeInlayXPath = `//div[contains(@class, 'node-inlay') and .//span[contains(text(), '${header}')]]`;
+    const nodeInlay = document.evaluate(nodeInlayXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+
+    let securityStatus = 'N/A'; // Default value if not found
+    if (nodeInlay) {
+      // Extract the security status
+      const securityTypeNode = nodeInlay.querySelector('.system-type');
+      if (securityTypeNode) {
+        securityStatus = securityTypeNode.textContent.trim();
+      }
+    }
+
     // XPath pairs for the scraped data
     const pairs = [
       {
@@ -118,17 +140,28 @@ function getHeaderDataAndNumbers() {
       }
     ];
 
-    let result = '';
-    
+    let numbersOutput = ''; // Collect valid number outputs
     pairs.forEach(pair => {
-      const result1 = document.evaluate(pair.xPath1, document, null, XPathResult.STRING_TYPE, null).stringValue || 'N/A';
-      const result2 = document.evaluate(pair.xPath2, document, null, XPathResult.STRING_TYPE, null).stringValue || 'N/A';
-      result += result2 + " from " + result1 + ".\n"; // Add period at the end of each line
+      const result1 = document.evaluate(pair.xPath1, document, null, XPathResult.STRING_TYPE, null).stringValue || null;
+      const result2 = document.evaluate(pair.xPath2, document, null, XPathResult.STRING_TYPE, null).stringValue || null;
+
+      if (result1 && result2) {
+        numbersOutput += `${result2} from ${result1}.\n`; // Only add valid results
+      }
     });
 
+    // Trim to remove extra spaces
+    numbersOutput = numbersOutput.trim();
+
+    // Format header data
+    let connectionText = '';
+    if (securityStatus !== 'N/A') {
+      connectionText = securityStatus.startsWith('C') ? `${securityStatus}.` : `${securityStatus} Connection.`;
+    }
+
     return {
-      header: header,
-      numbers: result.trim()
+      header: connectionText ? `${connectionText} ${header}` : header, // Format header data
+      numbers: numbersOutput // Return only valid results
     };
   } catch (error) {
     console.error('Error fetching data:', error);
