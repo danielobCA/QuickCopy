@@ -1,3 +1,133 @@
+document.addEventListener('DOMContentLoaded', function () {
+  const discordButton = document.getElementById('sendToDiscordButton'); // Assume the button has this ID
+  let isSendingToDiscord = false; // Flag to track sending status
+  let lastRequestId = null; // Track unique request
+
+  // Load the saved webhook URL or set default
+  const webhookUrlInput = document.getElementById('webhookUrl');
+  webhookUrlInput.value = localStorage.getItem('webhookUrl') || '';
+
+  // Add event listener to the webhook URL input to save the URL
+  webhookUrlInput.addEventListener('change', function () {
+    localStorage.setItem('webhookUrl', webhookUrlInput.value);
+  });
+
+  if (discordButton && !discordButton.dataset.listenerAdded) {
+    discordButton.addEventListener('click', function () {
+      if (isSendingToDiscord) {
+        console.log('Message is already being sent. Please wait.');
+        return; // Exit early if the message is already in the process of being sent
+      }
+
+      // Set flag to true to prevent further sends
+      isSendingToDiscord = true;
+      lastRequestId = Date.now(); // Unique request ID based on timestamp
+      console.log('Starting to send message to Discord...', lastRequestId);
+
+      const numbers = document.getElementById('number').innerText;
+      const header = document.getElementById('headerData').innerText;
+      const fullText = numbers ? `${header} ${numbers.replace(/\n/g, ' ')}` : header;
+
+      // Get the webhook URL from the input field
+      const webhookUrl = webhookUrlInput.value;
+
+      sendToDiscord(fullText, webhookUrl, lastRequestId)
+        .then(() => {
+          console.log('Message sent successfully.', lastRequestId);
+        })
+        .catch((error) => {
+          console.error('Error sending message:', error);
+        })
+        .finally(() => {
+          // Reset flag after sending is complete
+          isSendingToDiscord = false;
+          console.log('Sending process finished for request:', lastRequestId);
+        });
+    });
+
+    // Set flag so that listener is not added again
+    discordButton.dataset.listenerAdded = true;
+  }
+
+  const themeDropdown = document.getElementById('themeDropdown');
+
+  // Load the saved theme or default
+  const savedTheme = localStorage.getItem('theme') || 'default';
+  applyTheme(savedTheme);
+  themeDropdown.value = savedTheme;
+
+  // Handle theme changes
+  themeDropdown.addEventListener('change', function () {
+    const selectedTheme = themeDropdown.value;
+    applyTheme(selectedTheme);
+    // Save the selected theme to localStorage
+    localStorage.setItem('theme', selectedTheme);
+  });
+
+  // Fetch data and handle copy functionality
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.scripting.executeScript({
+      target: { tabId: tabs[0].id },
+      function: getHeaderDataAndNumbers
+    }, (results) => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError.message);
+      } else {
+        const data = results[0].result;
+        if (data) {
+          // Add a period to the end of the header
+          document.getElementById('headerData').innerText = (data.header || 'Header not found') + '.';
+
+          // Check if numbers were returned and update UI accordingly
+          const numberElement = document.getElementById('number');
+          if (data.numbers && data.numbers.trim() !== '') {
+            numberElement.innerText = data.numbers;
+          } else {
+            numberElement.innerText = ''; // Clear the numbers if not found
+          }
+        } else {
+          console.error('No data returned from the content script.');
+        }
+      }
+    });
+  });
+
+  // Add event listener to copy button
+  document.getElementById('copyButton').addEventListener('click', function () {
+    const numbers = document.getElementById('number').innerText;
+    const header = document.getElementById('headerData').innerText;
+
+    // Prepare full text without "from" if numbers are not present
+    const fullText = numbers ? `${header} ${numbers.replace(/\n/g, ' ')}` : header;
+    copyToClipboard(fullText);
+  });
+});
+
+// Function to send data to Discord webhook with unique requestId
+function sendToDiscord(data, webhookUrl, requestId) {
+  console.log('Request to send message initiated:', requestId);
+
+  return fetch(webhookUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      content: data
+    })
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    console.log('Message sent for requestId:', requestId);
+    return response.json();
+  })
+  .catch(error => {
+    console.error('Error in request:', requestId, error);
+  });
+}
+
 // Function to apply the selected theme
 function applyTheme(theme) {
   fetch('colors.json')
@@ -41,61 +171,6 @@ function applyTheme(theme) {
     })
     .catch(error => console.error('Error loading colors:', error));
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-  const themeDropdown = document.getElementById('themeDropdown');
-
-  // Load the saved theme or default
-  const savedTheme = localStorage.getItem('theme') || 'default';
-  applyTheme(savedTheme);
-  themeDropdown.value = savedTheme;
-
-  // Handle theme changes
-  themeDropdown.addEventListener('change', function () {
-    const selectedTheme = themeDropdown.value;
-    applyTheme(selectedTheme);
-    // Save the selected theme to localStorage
-    localStorage.setItem('theme', selectedTheme);
-  });
-
-  // Fetch data and handle copy functionality
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.scripting.executeScript({
-      target: { tabId: tabs[0].id },
-      function: getHeaderDataAndNumbers
-    }, (results) => {
-      if (chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError.message);
-      } else {
-        const data = results[0].result;
-        if (data) {
-          // Add a period to the end of the header
-          document.getElementById('headerData').innerText = (data.header || 'Header not found') + '.';
-          
-          // Check if numbers were returned and update UI accordingly
-          const numberElement = document.getElementById('number');
-          if (data.numbers && data.numbers.trim() !== '') {
-            numberElement.innerText = data.numbers;
-          } else {
-            numberElement.innerText = ''; // Clear the numbers if not found
-          }
-        } else {
-          console.error('No data returned from the content script.');
-        }
-      }
-    });
-  });
-
-  // Add event listener to copy button
-  document.getElementById('copyButton').addEventListener('click', function () {
-    const numbers = document.getElementById('number').innerText;
-    const header = document.getElementById('headerData').innerText;
-    
-    // Prepare full text without "from" if numbers are not present
-    const fullText = numbers ? `${header} ${numbers.replace(/\n/g, ' ')}` : header;
-    copyToClipboard(fullText);
-  });
-});
 
 function getHeaderDataAndNumbers() {
   try {

@@ -30,19 +30,18 @@
     }
 
     .titleBox a {
-      color: inherit; /* Link color is inherited from font color */
-      text-decoration: none; /* Remove underline */
+      color: inherit;
+      text-decoration: none;
     }
 
     .titleBox a:hover {
-      text-decoration: underline; /* Underline on hover */
+      text-decoration: underline;
     }
 
-    /* Smaller font size for version text */
     .titleBox span.version {
-      font-size: 14px; /* Adjust the font size as needed */
-      display: block; /* Ensure it's on a new line */
-      margin-top: 5px; /* Add some space above if needed */
+      font-size: 14px;
+      display: block;
+      margin-top: 5px;
     }
 
     #content {
@@ -64,24 +63,41 @@
       margin-bottom: 20px;
     }
 
-    #copyButton {
-      padding: 10px 20px;
+    #copyButton,
+    #sendToDiscordButton {
+      width: 200px; /* Set a fixed width */
+      padding: 10px 0; /* Same padding for both buttons */
       border: none;
-      border-radius: 25px;
+      border-radius: 25px; /* Rounded corners */
       cursor: pointer;
       font-size: 18px;
-      font-family: 'Poppins', sans-serif; /* Ensures the font matches the rest */
+      font-family: 'Poppins', sans-serif;
       transition: background 0.3s, box-shadow 0.3s;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Button shadow */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 10px; /* Space below the button */
+    }
+
+    #sendToDiscordButton {
+      background: linear-gradient(135deg, #7289da, #5b6eae); /* Gradient from Discord color to darker shade */
+      color: white;
+    }
+
+    #copyButton {
+      background-color: #4CAF50; /* Green color for copy button */
+      color: white; /* Text color */
+    }
+
+    #sendToDiscordButton:hover {
+      background: linear-gradient(135deg, #5b6eae, #7289da); /* Reverse gradient on hover */
     }
 
     #copyButton:hover {
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Hover effect for copy button */
     }
 
     .copy-notification {
       position: absolute;
-      top: 400px;
+      top: 95px;
       right: 172px;
       background-color: #4CAF50;
       color: white;
@@ -92,6 +108,10 @@
       visibility: hidden;
       transition: opacity 0.3s ease-in-out, visibility 0.5s;
       z-index: 1000;
+      width: auto; /* Adjust width to auto */
+      text-align: center;
+      margin-left: auto; /* Centering */
+      margin-right: auto; /* Centering */
     }
 
     .copy-notification.show {
@@ -99,14 +119,23 @@
       visibility: visible;
     }
 
-    /* Ensure the dropdown font matches the rest */
     #themeDropdown {
-      font-family: 'Poppins', sans-serif; /* Match the rest of the fonts */
-      font-size: 14px; /* Adjust font size as needed */
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
       padding: 2px;
       border-radius: 16px;
-      border: 1px solid #ccc; /* Optional: Adjust border style */
+      border: 1px solid #ccc;
       cursor: pointer;
+    }
+
+    #webhookUrl {
+      font-family: 'Poppins', sans-serif; /* Match the font */
+      font-size: 12px; /* You can adjust the size as needed */
+      padding: 5px; /* Add some padding for better spacing */
+      border-radius: 8px; /* Rounded corners */
+      border: 1px solid #ccc; /* Border style */
+      width: calc(100% - 250px); /* Full width minus padding */
+      margin-bottom: 10px; /* Space below the input */
     }
 
     @media (max-width: 400px) {
@@ -119,7 +148,8 @@
         font-size: 22px;
         padding: 10px;
       }
-
+      
+      #sendToDiscordButton,
       #copyButton {
         font-size: 16px;
         padding: 8px 15px;
@@ -128,48 +158,51 @@
       #number {
         font-size: 16px;
       }
+
+      #webhookUrl {
+        font-size: 12px; /* Maintain font size */
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Full-width Title bar -->
   <div class="titleBox" id="titleBox">
     <a href="https://github.com/danielobCA/QuickCopy" target="_blank">GalaxyFinder QuickCopy</a>
     <br>
-    <span class="version">(v1.2.4)</span> <!-- Version with smaller font size -->
+    <span class="version">(v1.2.5)</span>
   </div>
 
-  <!-- Main content below the bar -->
   <div id="content">
     <br>
-    <h1 id="headerData">No system selected.</h1> <!-- Dynamic header content -->
-    <p id="number"></p> <!-- Example text to copy -->
-    <br>
-    <button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
-    <br>
-    <br>
-    <br>
-  </div>
+    <h1 id="headerData">No system selected.</h1>
+    <p id="number"></p>
+    <div id="buttonContainer">
+      <button id="copyButton">Copy to Clipboard</button>
+      <br>
+      <button id="sendToDiscordButton">Send to Discord</button>
+      <br>
+      <input type="text" id="webhookUrl" placeholder="Discord Webhook URL" />
+      <br>
+      <br>
+    </div>
 
-  <!-- Theme Selector -->
-  <div id="themeSelector">
-    <select id="themeDropdown">
-      <option value="default">Default</option>
-      <option value="dark">Slate</option>   
-      <option value="glacier">Glacier</option>  
-      <option value="amarr">Amarr</option>
-      <option value="caldari">Caldari</option> 
-      <option value="gallente">Gallente</option>  
-      <option value="minmatar">Minmatar</option>   
-      <option value="SEND">Ascendants</option>   
-      <option value="pink">Cotton Candy</option>      
-      <option value="tyrian">Tyrian</option>              
-      
-    </select>
-  </div>
+    <div id="themeSelector">
+      <select id="themeDropdown">
+        <option value="default">Default</option>
+        <option value="dark">Slate</option>   
+        <option value="glacier">Glacier</option>  
+        <option value="amarr">Amarr</option>
+        <option value="caldari">Caldari</option> 
+        <option value="gallente">Gallente</option>  
+        <option value="minmatar">Minmatar</option>   
+        <option value="SEND">Ascendants</option>   
+        <option value="pink">Cotton Candy</option>      
+        <option value="tyrian">Tyrian</option>              
+      </select>
+    </div>
     <br>
-  <!-- Notification for copy -->
-  <div class="copy-notification" id="copyNotification">Copied!</div>
+    <div class="copy-notification" id="copyNotification">Copied!</div>
+  </div>
 
   <script src="popup.js"></script>
 </body>
